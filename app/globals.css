@@ -77,6 +77,10 @@
 @theme inline {
   --font-sans: "Geist", "Geist Fallback";
   --font-mono: "Geist Mono", "Geist Mono Fallback";
+  
+  /* Add extra small breakpoint for phones */
+  --breakpoint-xs: 475px;
+  
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -121,6 +125,25 @@
   }
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Mobile-specific optimizations */
+  @media (max-width: 768px) {
+    * {
+      -webkit-tap-highlight-color: rgba(8, 145, 178, 0.2);
+    }
+    
+    /* Improve touch scrolling */
+    html {
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Better text rendering on mobile */
+    body {
+      text-rendering: optimizeLegibility;
+    }
   }
 }
 
