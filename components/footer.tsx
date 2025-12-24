@@ -76,7 +76,7 @@ export function Footer() {
 
           <div>
             <h3 className="font-semibold text-foreground mb-3 sm:mb-4 text-sm sm:text-base">Contact</h3>
-            <ul className="space-y-2 sm:space-y-2 sm:space-y-3">
+            <ul className="space-y-2 sm:space-y-3">
               <li className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
                 <Mail size={14} className="sm:w-4 sm:h-4 text-primary shrink-0" />
                 <span className="break-all">info@titansecurity.com</span>

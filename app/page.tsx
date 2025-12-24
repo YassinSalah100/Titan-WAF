@@ -5,10 +5,11 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { SplashScreen } from "@/components/splash-screen"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { motion } from "framer-motion"
 import { 
-  Shield, Zap, Activity, Lock, Eye, Brain, Network, 
-  ArrowRight, Layers, Database, Server, Globe, CheckCircle2, AlertTriangle 
+  Shield, Zap, Lock, Brain, ArrowRight, 
+  Layers, Database, Server, Network, 
+  CheckCircle2, AlertTriangle, Globe 
 } from "lucide-react"
 
 export default function LandingPage() {
@@ -23,70 +24,74 @@ export default function LandingPage() {
   if (showSplash) return <SplashScreen onComplete={() => setShowSplash(false)} />
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/40">
       <Navbar />
 
-      {/* Hero Section: High-Pressure Messaging */}
-      <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-cyan-900/20 via-transparent to-transparent" />
+      {/* ADVANCED HERO SECTION */}
+      <section className="relative pt-36 pb-24 px-4 overflow-hidden">
+        {/* Animated Cyber Aura */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(8,145,178,0.15)_0%,transparent_50%)]" />
         
         <div className="relative mx-auto max-w-7xl text-center">
-          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-sm text-cyan-400 backdrop-blur-md mb-6 sm:mb-8 animate-fade-in">
-            <Shield size={14} className="sm:w-4 sm:h-4" />
-            <span className="font-bold tracking-wide uppercase text-[9px] xs:text-[10px] sm:text-xs">
-              The First Egyptian-Engineered WAF Platform
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-cyan-950/30 border border-cyan-500/20 text-cyan-400 backdrop-blur-xl mb-10"
+          >
+            <span className="flex h-2 w-2 rounded-full bg-cyan-500 animate-ping" />
+            <span className="font-bold tracking-[0.2em] text-[10px] sm:text-xs uppercase">
+              Egyptian Cyber-Defense Initiative Active
             </span>
-          </div>
+          </motion.div>
 
-          <h1 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1] sm:leading-[0.9] mb-6 sm:mb-8 px-2">
-            STOP RELYING ON <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-400 to-white">
-              FOREIGN BLACK-BOXES
+          <h1 className="text-6xl sm:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.85] mb-10">
+            SOVEREIGN <br />
+            <span className="text-transparent bg-clip-text bg-linear-to-b from-white via-cyan-200 to-cyan-600">
+              CYBER POWER
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-8 sm:mb-10 leading-relaxed px-4">
-            Protect your Egyptian digital assets with a sovereign security perimeter. 
-            TITAN delivers 10ms local latency and AI-driven threat suppression 
-            built specifically for the regional threat landscape.
+          <p className="text-lg md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed px-4 font-medium">
+            The era of foreign reliance is over. Secure your national digital assets 
+            with the only WAF designed for the Egyptian threat landscape.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4">
-            <Button size="lg" className="w-full sm:w-auto bg-cyan-600 hover:bg-cyan-500 text-white font-bold h-12 sm:h-14 px-6 sm:px-8 shadow-[0_0_20px_rgba(8,145,178,0.3)] text-sm sm:text-base active:scale-95 transition-transform">
-              Deploy National Shield
-              <ArrowRight size={16} className="ml-2 sm:w-[18px] sm:h-[18px]" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 px-4 mb-20">
+            <Button size="lg" className="w-full sm:w-auto bg-cyan-600 hover:bg-cyan-400 text-[#020617] font-black h-16 px-10 rounded-xl text-lg transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(8,145,178,0.3)]">
+              ACTIVATE SHIELD
+              <ArrowRight size={20} className="ml-2" />
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 h-12 sm:h-14 px-6 sm:px-8 text-sm sm:text-base active:scale-95 transition-transform">
-              Technical Architecture
+            <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 h-16 px-10 rounded-xl font-bold">
+              SECURITY AUDIT
             </Button>
           </div>
 
-          {/* Real-time Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto mt-12 sm:mt-16 md:mt-20 px-4">
+          {/* ADVANCED STATS GRID */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
             {[
-              { label: "Local Latency", value: "<10ms", sub: "Cairo Edge" },
-              { label: "Attack Mitigation", value: "99.9%", sub: "AI-Layered" },
-              { label: "Data Sovereignty", value: "100%", sub: "Egyptian Owned" },
+              { label: "Regional Nodes", value: "Cairo/Alex", color: "text-cyan-400" },
+              { label: "Local Latency", value: "<8ms", color: "text-green-400" },
+              { label: "Egyptian Owned", value: "100%", color: "text-cyan-400" },
+              { label: "Threat Scrubbing", value: "L7-DDoS", color: "text-red-400" },
             ].map((stat, i) => (
-              <div key={i} className="p-5 sm:p-6 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                <div className="text-2xl sm:text-3xl font-black text-cyan-400">{stat.value}</div>
-                <div className="text-[11px] sm:text-xs font-bold text-white mt-1 uppercase tracking-widest">{stat.label}</div>
-                <div className="text-[9px] sm:text-[10px] text-slate-500 mt-1 italic">{stat.sub}</div>
+              <div key={i} className="p-6 rounded-2xl bg-[#030a1c] border border-white/5 backdrop-blur-sm group hover:border-cyan-500/30 transition-all">
+                <div className={`text-xl sm:text-2xl font-black ${stat.color} mb-1`}>{stat.value}</div>
+                <div className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why TITAN is Different: Deep Pressure Comparison */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 border-y border-white/5 bg-slate-900/20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+      {/* WHY TITAN IS DIFFERENT: DEEP PRESSURE COMPARISON */}
+      <section className="py-24 border-y border-white/5 bg-slate-900/20">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 tracking-tight leading-tight">
-                Traditional WAFs Treat Egypt as an <span className="text-cyan-400 italic font-black underline decoration-2 underline-offset-4 sm:underline-offset-8">Afterthought</span>
+              <h2 className="text-4xl font-bold mb-6 tracking-tight leading-tight">
+                Traditional WAFs Treat Egypt as an <span className="text-cyan-400 italic font-black underline decoration-2 underline-offset-8">Afterthought</span>
               </h2>
-              <div className="space-y-4 sm:space-y-6">
+              <div className="space-y-6">
                 {[
                   {
                     title: "Sovereign Data Control",
@@ -95,100 +100,91 @@ export default function LandingPage() {
                   },
                   {
                     title: "Regional Threat Intelligence",
-                    desc: "We analyze local attack patterns (DDoS/SQLi) targeting national infrastructure that global providers ignore.",
+                    desc: "We analyze local attack patterns targeting national infrastructure that global providers ignore.",
                     icon: <Brain className="text-cyan-400" />
                   },
                   {
                     title: "Zero-Latency Edge Nodes",
-                    desc: "Strategic nodes in Cairo & Alexandria eliminate the 200ms international round-trip penalty.",
+                    desc: "Strategic nodes in Cairo & Alexandria eliminate the international round-trip penalty.",
                     icon: <Zap className="text-cyan-400" />
                   }
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-3 sm:gap-4 p-4 sm:p-5 rounded-lg sm:rounded-xl border border-white/5 hover:bg-white/5 transition-colors active:bg-white/10">
-                    <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20">
+                  <div key={i} className="flex gap-4 p-5 rounded-xl border border-white/5 hover:bg-white/5 transition-colors">
+                    <div className="shrink-0 w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20">
                       {item.icon}
                     </div>
                     <div>
-                      <h3 className="font-bold text-white text-sm sm:text-base mb-1">{item.title}</h3>
-                      <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">{item.desc}</p>
+                      <h3 className="font-bold text-white text-lg">{item.title}</h3>
+                      <p className="text-sm text-slate-400 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Comparison Table */}
-            <div className="bg-slate-900/50 rounded-2xl sm:rounded-3xl border border-white/10 p-4 sm:p-6 md:p-8 overflow-hidden relative">
-              <div className="absolute top-0 right-0 p-4 opacity-10 hidden sm:block">
-                <Shield size={200} />
-              </div>
-              <h3 className="text-base sm:text-lg md:text-xl font-bold mb-4 sm:mb-6 flex items-center gap-2 text-cyan-400">
-                <CheckCircle2 size={18} className="sm:w-5 sm:h-5 shrink-0" /> 
-                <span className="leading-tight">Competitive Edge Analysis</span>
+            {/* COMPARISON TABLE */}
+            <div className="bg-[#030a1c] rounded-3xl border border-white/10 p-8 overflow-hidden relative shadow-2xl">
+              <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-cyan-400 uppercase tracking-tighter">
+                <CheckCircle2 size={24} /> Competitive Edge Analysis
               </h3>
-              <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
-              <table className="w-full text-xs sm:text-sm min-w-[280px]">
+              <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-white/10 text-slate-500">
-                    <th className="text-left pb-3 sm:pb-4 font-semibold">Feature</th>
-                    <th className="text-center pb-3 sm:pb-4 text-white font-semibold">TITAN</th>
-                    <th className="text-right pb-3 sm:pb-4 font-semibold">Global</th>
+                  <tr className="border-b border-white/10 text-slate-500 uppercase text-[10px] tracking-widest">
+                    <th className="text-left pb-4">Security Vectors</th>
+                    <th className="text-center pb-4 text-white">TITAN</th>
+                    <th className="text-right pb-4">Global Comp.</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {[
                     ["Local Data Residency", true, false],
                     ["National Threat Labs", true, false],
-                    ["<15ms Egypt Latency", true, false],
+                    ["<10ms Egypt Latency", true, false],
                     ["AI Zero-Day Shield", true, true],
                     ["24/7 Local Support", true, false],
                   ].map(([feature, titan, global], i) => (
-                    <tr key={i} className="group">
-                      <td className="py-3 sm:py-4 text-slate-300 font-medium text-[11px] sm:text-sm">{feature as string}</td>
-                      <td className="py-3 sm:py-4 text-center">
-                        <CheckCircle2 size={14} className="mx-auto text-green-400 sm:w-4 sm:h-4" />
+                    <tr key={i} className="group hover:bg-white/2 transition-colors">
+                      <td className="py-4 text-slate-300 font-medium">{feature as string}</td>
+                      <td className="py-4 text-center">
+                        <CheckCircle2 size={18} className="mx-auto text-green-400" />
                       </td>
-                      <td className="py-3 sm:py-4 text-right">
+                      <td className="py-4 text-right">
                         {global ? (
-                          <CheckCircle2 size={14} className="ml-auto text-slate-600 sm:w-4 sm:h-4" />
+                          <CheckCircle2 size={18} className="ml-auto text-slate-600" />
                         ) : (
-                          <AlertTriangle size={14} className="ml-auto text-red-500/50 sm:w-4 sm:h-4" />
+                          <AlertTriangle size={18} className="ml-auto text-red-500/50" />
                         )}
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              </div>
-              <p className="mt-4 sm:mt-6 text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-widest font-bold">
-                * Comparison based on regional edge node distribution (2025)
-              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Layered Security Architecture: Modern Visual Grid */}
-      <section id="architecture" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-[#020617]">
+      {/* LAYERED ARCHITECTURE GRID */}
+      <section id="architecture" className="py-24 px-4 bg-[#020617]">
         <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-8 sm:mb-12 md:mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-3 sm:mb-4">THE TITAN STACK</h2>
-            <p className="text-sm sm:text-base text-slate-400">Total protection across every digital layer</p>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase">The TITAN Stack</h2>
+            <p className="text-slate-400 max-w-xl mx-auto">Total protection across every digital layer of the Egyptian infrastructure.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { title: "Application Layer", desc: "Next-gen WAF & API shielding against OWASP Top 10.", icon: <Layers /> },
               { title: "Network Layer", desc: "Egyptian-node DDoS scrubbing & intrusion prevention.", icon: <Network /> },
               { title: "Infrastructure Layer", desc: "Container security & automated vulnerability sweeps.", icon: <Server /> },
               { title: "Data Layer", desc: "Locally-compliant encryption & sovereign data storage.", icon: <Database /> },
             ].map((item, i) => (
-              <div key={i} className="p-6 sm:p-7 md:p-8 rounded-2xl sm:rounded-[2rem] bg-white/5 border border-white/10 hover:border-cyan-500/40 active:border-cyan-500/60 transition-all group">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-cyan-500/10 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform text-cyan-400 border border-cyan-500/20">
+              <div key={i} className="p-8 rounded-4xl bg-white/5 border border-white/10 hover:border-cyan-500/40 transition-all group">
+                <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-cyan-400 border border-cyan-500/20">
                   {item.icon}
                 </div>
-                <h3 className="text-base sm:text-lg font-bold mb-2 sm:mb-3">{item.title}</h3>
-                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                <h3 className="text-lg font-bold mb-3">{item.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
