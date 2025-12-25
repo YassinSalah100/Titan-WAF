@@ -6,131 +6,198 @@ import Image from "next/image"
 
 const letters = "TITAN".split("")
 
-// Custom SVG Component for the Floor Crack Effect
-const CrackVisual = ({ style }: { style: any }) => (
+// --- 1. REALISTIC SHARD DEBRIS ---
+const DebrisShard = ({ angle, distance }: { angle: number; distance: number }) => (
+  <motion.div
+    initial={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
+    animate={{ 
+      opacity: 0, 
+      x: Math.cos(angle) * distance, 
+      y: Math.sin(angle) * distance, 
+      rotate: Math.random() * 360 
+    }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+    className="absolute w-1 h-3 bg-cyan-200/50 clip-triangle"
+    style={{ clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" }}
+  />
+)
+
+// --- 2. ADVANCED FRACTURE CRACK (For Words Only) ---
+const RealisticCrack = ({ style }: { style: React.CSSProperties }) => (
   <motion.svg
-    viewBox="0 0 100 100"
-    className="absolute pointer-events-none z-0"
-    style={{ width: '300px', height: '300px', ...style }}
-    initial={{ pathLength: 0, opacity: 0 }}
-    animate={{ pathLength: 1, opacity: [0, 1, 0] }}
-    transition={{ duration: 0.3 }}
+    viewBox="0 0 200 200"
+    className="absolute pointer-events-none z-0 opacity-70"
+    style={{ width: '400px', height: '400px', ...style }}
   >
-    <path
-      d="M50,50 L45,55 L55,60 L40,70 L60,80 M50,50 L55,45 L65,50 L75,40"
+    <defs>
+      <filter id="shock-glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+        <feMerge>
+          <feMergeNode in="coloredBlur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <motion.path
+      d="M100,100 L120,80 L140,85 L180,60 M100,100 L80,120 L70,150 L40,180 M100,100 L130,120 L160,130 L190,120 M100,100 L70,70 L60,40 L20,20"
       fill="none"
-      stroke="cyan"
+      stroke="rgba(34, 211, 238, 0.6)"
       strokeWidth="2"
       strokeLinecap="round"
-      filter="drop-shadow(0 0 5px cyan)"
+      strokeLinejoin="bevel"
+      filter="url(#shock-glow)"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity: [0, 1, 0.4] }}
+      transition={{ duration: 0.1, ease: "easeOut" }}
+    />
+  </motion.svg>
+)
+
+// --- 3. BACKGROUND THUNDER EFFECT ---
+const Lightning = () => (
+  <motion.svg
+    viewBox="0 0 200 400"
+    className="absolute top-0 left-0 w-full h-full z-[-1] pointer-events-none opacity-50"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: [0, 1, 0, 0.8, 0] }}
+    transition={{ duration: 0.2, times: [0, 0.1, 0.4, 0.6, 1] }}
+  >
+    <path
+      d={`M${50 + Math.random() * 100},0 
+         L${80 + Math.random() * 40},100 
+         L${40 + Math.random() * 40},150 
+         L${100 + Math.random() * 40},300 
+         L${60 + Math.random() * 40},350 
+         L${100 + Math.random() * 50},400`}
+      stroke="cyan"
+      strokeWidth="3"
+      fill="none"
+      filter="drop-shadow(0 0 30px rgba(34,211,238,0.8))"
     />
   </motion.svg>
 )
 
 export function SplashScreen({ onComplete }: { onComplete: () => void }) {
   const [startExit, setStartExit] = useState(false)
-  const [impacts, setImpacts] = useState<number[]>([]) // Tracks which letter caused a crack
-  const [shake, setShake] = useState(0)
+  const [impacts, setImpacts] = useState<number[]>([]) 
+  const [shake, setShake] = useState({ x: 0, y: 0 })
+  const [lightningKey, setLightningKey] = useState(0)
 
-  const playHit = (index: number) => {
-    // 1. Play Sound
-    const audio = new Audio("/hit.mp3")
-    audio.volume = 0.5
-    audio.play().catch(() => {})
+  // Trigger random lightning
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (Math.random() > 0.6) {
+        setLightningKey(prev => prev + 1)
+      }
+    }, 2000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const triggerImpact = (index: number) => {
+    // Heavy Camera Shake (Randomized Direction)
+    const force = index === -1 ? 25 : 12
+    setShake({ 
+      x: (Math.random() - 0.5) * force, 
+      y: (Math.random() - 0.5) * force 
+    })
     
-    // 2. Trigger Screen Shake
-    setShake(10) 
-    setTimeout(() => setShake(0), 100)
+    // Quick Reset
+    setTimeout(() => setShake({ x: 0, y: 0 }), 80)
 
-    // 3. Register Crack at this index
+    // Register Impact
     setImpacts(prev => [...prev, index])
   }
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setStartExit(true)
-      setTimeout(onComplete, 1400) // Allow time for fly-out animation
+      setTimeout(onComplete, 1200) 
     }, 4500)
     return () => clearTimeout(timer)
   }, [onComplete])
 
   return (
     <motion.div
-      animate={{ x: [0, -shake, shake, 0], y: [0, shake/2, -shake/2, 0] }}
-      className="fixed inset-0 z-100 flex items-center justify-center bg-[#020617] overflow-hidden"
+      // Screen Shake Application
+      animate={{ x: shake.x, y: shake.y }}
+      transition={{ type: "tween", duration: 0.05 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-[#020617] overflow-hidden"
     >
-      {/* Background Matrix Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.03)_1px,transparent_1px)] bg-size-[40px_40px] mask-[radial-gradient(circle_at_center,black_40%,transparent_100%)]" />
+      {/* 3D Perspective Floor */}
+      <div 
+        className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" 
+        style={{ 
+          transform: "perspective(1000px) rotateX(70deg) translateY(150px) scale(2)",
+          maskImage: "radial-gradient(circle at center, black 30%, transparent 80%)"
+        }}
+      />
 
-      {/* Render Cracks Dynamically */}
-      {impacts.map((i) => (
-        <CrackVisual 
-          key={i} 
-          style={{ 
-            left: `${35 + i * 8}%`, // Position crack under the letter
-            top: '50%',
-            transform: `rotate(${Math.random() * 360}deg)`
-          }} 
-        />
-      ))}
+      {/* Background Thunder */}
+      {lightningKey > 0 && (
+        <Lightning key={lightningKey} />
+      )}
 
       <div className="relative flex flex-col items-center z-10">
-        {/* === SHARED LOGO === */}
+        
+        {/* === SHARED LOGO (No Visual FX, Just Physics) === */}
         <motion.div 
           layoutId="main-logo"
-          initial={{ y: -800, opacity: 0, scale: 5 }}
+          initial={{ y: -1000, opacity: 0, scale: 4 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
-          transition={{ type: "spring", stiffness: 120, damping: 15 }}
-          onAnimationComplete={() => playHit(-1)} // -1 for Logo impact
+          transition={{ type: "spring", stiffness: 200, damping: 20, mass: 2 }} // Heavy Mass
+          onAnimationComplete={() => triggerImpact(-1)} 
           className="relative mb-16"
         >
           <Image
             src="/logo_transparent.png"
             alt="TITAN"
-            width={200}
-            height={200}
-            className="drop-shadow-[0_0_50px_rgba(34,211,238,0.3)]"
+            width={220}
+            height={220}
+            className="drop-shadow-[0_0_60px_rgba(6,182,212,0.5)] relative z-10"
             priority
           />
+          {/* REMOVED: Cracks and Flash from logo as requested */}
         </motion.div>
 
-        {/* === SHARED LETTERS === */}
-        <div className="flex gap-3 md:gap-5">
+        {/* === SHARED LETTERS (With Cracks & Debris) === */}
+        <div className="flex gap-3 md:gap-5 relative">
           <AnimatePresence>
             {!startExit && letters.map((letter, i) => (
-              <motion.span
-                key={i}
-                layoutId={`letter-${i}`}
-                initial={{ y: -600, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ opacity: 0, scale: 0.5 }} // Optional fade out before fly
-                transition={{ 
-                  type: "spring", stiffness: 200, damping: 18, 
-                  delay: 1 + (i * 0.15) 
-                }}
-                onAnimationComplete={() => playHit(i)}
-                className="text-7xl md:text-9xl font-black text-white tracking-tighter drop-shadow-2xl"
-              >
-                {letter}
-              </motion.span>
+              <div key={i} className="relative">
+                <motion.span
+                  layoutId={`letter-${i}`}
+                  initial={{ y: -800, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 350, 
+                    damping: 30,    
+                    mass: 3,        
+                    delay: 0.8 + (i * 0.1) 
+                  }}
+                  onAnimationComplete={() => triggerImpact(i)}
+                  className="block text-7xl md:text-9xl font-black text-white tracking-tighter drop-shadow-2xl relative z-10"
+                >
+                  {letter}
+                </motion.span>
+                
+                {/* Impact FX (Words Only) */}
+                {impacts.includes(i) && (
+                  <>
+                    <RealisticCrack style={{ left: '-150px', top: '-100px', transform: `rotate(${i * 60}deg) scale(0.6)` }} />
+                    {/* Spawn Debris Particles */}
+                    {[...Array(6)].map((_, p) => (
+                      <DebrisShard key={p} angle={(p * 60 * Math.PI) / 180} distance={100} />
+                    ))}
+                  </>
+                )}
+              </div>
             ))}
           </AnimatePresence>
         </div>
 
-        {/* === LOADING BAR === */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: startExit ? 0 : 1 }}
-          transition={{ delay: 2.5 }}
-          className="mt-16 w-64 h-1 bg-white/10 rounded-full overflow-hidden"
-        >
-          <motion.div 
-            initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 2, ease: "easeInOut", delay: 2.5 }}
-            className="h-full bg-cyan-500 shadow-[0_0_10px_cyan]" 
-          />
-        </motion.div>
+        {/* REMOVED: Loading Bar */}
       </div>
     </motion.div>
   )
