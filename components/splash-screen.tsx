@@ -41,13 +41,13 @@ const RealisticCrack = ({ style, className }: { style: React.CSSProperties; clas
     <motion.path
       d="M100,100 L120,80 L140,85 L180,60 M100,100 L80,120 L70,150 L40,180 M100,100 L130,120 L160,130 L190,120 M100,100 L70,70 L60,40 L20,20"
       fill="none"
-      stroke="rgba(34, 211, 238, 0.6)"
-      strokeWidth="2"
+      stroke="rgba(34, 211, 238, 0.9)"
+      strokeWidth="4"
       strokeLinecap="round"
       strokeLinejoin="bevel"
       filter="url(#shock-glow)"
       initial={{ pathLength: 0, opacity: 0 }}
-      animate={{ pathLength: 1, opacity: [0, 1, 0.4] }}
+      animate={{ pathLength: 1, opacity: [0, 1, 0.6] }}
       transition={{ duration: 0.1, ease: "easeOut" }}
     />
   </motion.svg>
@@ -111,7 +111,8 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setStartExit(true)
-      setTimeout(onComplete, 1200) 
+      // Extended delay to allow letters to fully reach navbar before splash completes
+      setTimeout(onComplete, 1600) 
     }, 4500)
     return () => clearTimeout(timer)
   }, [onComplete])
@@ -121,7 +122,10 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
       // Screen Shake Application
       animate={{ x: shake.x, y: shake.y }}
       transition={{ type: "tween", duration: 0.05 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-[#020617] overflow-hidden"
+      // Keep background FULLY OPAQUE during exit to prevent letters showing on main content
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-100 flex items-center justify-center bg-[#020617] overflow-hidden"
     >
       {/* 3D Perspective Floor */}
       <div 

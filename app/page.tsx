@@ -35,7 +35,8 @@ export default function LandingPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-400 backdrop-blur-md mb-8"
+            transition={{ delay: 0.3 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-400 backdrop-blur-md mb-6 sm:mb-8"
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
@@ -46,27 +47,50 @@ export default function LandingPage() {
             </span>
           </motion.div>
 
-          <h1 className="text-5xl sm:text-7xl lg:text-9xl font-black tracking-tighter leading-none mb-8">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter leading-none mb-5 sm:mb-6 md:mb-8"
+          >
             SOVEREIGN <br />
             <span className="text-transparent bg-clip-text bg-linear-to-b from-white via-cyan-100 to-cyan-700">
               CYBER DEFENSE
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-medium px-2"
+          >
             Secure your digital infrastructure with the <span className="text-white font-bold">First Egyptian-Engineered WAF</span>. 
             Zero foreign reliance. Sub-10ms latency.
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="w-full sm:w-auto bg-cyan-600 hover:bg-cyan-500 h-14 px-8 text-lg font-bold shadow-[0_0_30px_rgba(8,145,178,0.2)]">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+          >
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+          >
+            <Button size="lg" className="w-full sm:w-auto bg-cyan-600 hover:bg-cyan-500 h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-bold shadow-[0_0_30px_rgba(8,145,178,0.2)]">
               Initialize Shield
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 h-14 px-8 font-mono text-sm">
+            <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 h-12 sm:h-14 px-6 sm:px-8 font-mono text-xs sm:text-sm">
               View Threat Map
             </Button>
-          </div>
+          </motion.div>
         </div>
       </section>
 

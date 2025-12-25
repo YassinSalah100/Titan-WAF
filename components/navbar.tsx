@@ -26,7 +26,7 @@ export function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
         
         {/* === BRANDING: RECEIVER FOR SPLASH ELEMENTS === */}
-        <Link href="/" className="flex items-center gap-3 sm:gap-4 group">
+        <Link href="/" className="flex items-center gap-2 xs:gap-3 sm:gap-4 group">
           {/* Logo with Glitch Entry */}
           <motion.div 
             layoutId="main-logo"
@@ -34,7 +34,7 @@ export function Navbar() {
               type: "spring", stiffness: 120, damping: 20,
               opacity: { duration: 0.4 }
             }}
-            className="relative w-9 h-9 sm:w-11 sm:h-11"
+            className="relative w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 md:w-11 md:h-11"
           >
             <Image src="/logo_transparent.png" alt="TITAN" fill className="object-contain" priority />
           </motion.div>
@@ -49,7 +49,7 @@ export function Navbar() {
                   type: "spring", stiffness: 150, damping: 25,
                   delay: 0.1 + (i * 0.05) // Rapid sequential landing
                 }}
-                className="text-xl sm:text-2xl font-black text-white tracking-tighter"
+                className="text-lg xs:text-xl sm:text-2xl font-black text-white tracking-tighter"
               >
                 {letter}
               </motion.span>
