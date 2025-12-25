@@ -51,7 +51,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter leading-none mb-5 sm:mb-6 md:mb-8"
+            className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-tight sm:leading-none mb-4 sm:mb-6 md:mb-8 px-2"
           >
             SOVEREIGN <br />
             <span className="text-transparent bg-clip-text bg-linear-to-b from-white via-cyan-100 to-cyan-700">
@@ -63,7 +63,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-medium px-2"
+            className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto mb-6 sm:mb-10 leading-relaxed font-medium px-4"
           >
             Secure your digital infrastructure with the <span className="text-white font-bold">First Egyptian-Engineered WAF</span>. 
             Zero foreign reliance. Sub-10ms latency.
@@ -83,11 +83,11 @@ export default function LandingPage() {
             transition={{ delay: 0.9 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
           >
-            <Button size="lg" className="w-full sm:w-auto bg-cyan-600 hover:bg-cyan-500 h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-bold shadow-[0_0_30px_rgba(8,145,178,0.2)]">
+            <Button size="lg" className="w-full sm:w-auto bg-cyan-600 hover:bg-cyan-500 h-11 sm:h-14 px-6 sm:px-8 text-sm sm:text-lg font-bold shadow-[0_0_30px_rgba(8,145,178,0.2)]">
               Initialize Shield
-              <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+              <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 h-12 sm:h-14 px-6 sm:px-8 font-mono text-xs sm:text-sm">
+            <Button size="lg" variant="outline" className="w-full sm:w-auto border-white/10 hover:bg-white/5 h-11 sm:h-14 px-6 sm:px-8 font-mono text-xs sm:text-sm">
               View Threat Map
             </Button>
           </motion.div>
@@ -95,34 +95,34 @@ export default function LandingPage() {
       </section>
 
       {/* === NEW: LIVE THREAT INTELLIGENCE DASHBOARD === */}
-      <section className="py-24 px-4 bg-black relative">
+      <section className="py-12 sm:py-20 px-4 bg-black relative">
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-10 gap-4 md:gap-6">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-2 flex items-center gap-3">
-                <Activity className="text-red-500" /> LIVE THREAT FEED
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight mb-2 flex items-center gap-2 sm:gap-3">
+                <Activity className="text-red-500 w-6 h-6 sm:w-8 sm:h-8" /> LIVE THREAT FEED
               </h2>
-              <p className="text-slate-500 font-mono text-xs">REAL-TIME INTERCEPTION LOGS [EG-NORTH-1]</p>
+              <p className="text-slate-500 font-mono text-[10px] sm:text-xs">REAL-TIME INTERCEPTION LOGS [EG-NORTH-1]</p>
             </div>
-            <div className="flex items-center gap-4 bg-white/5 border border-white/10 px-6 py-3 rounded-xl">
+            <div className="flex items-center gap-3 sm:gap-4 bg-white/5 border border-white/10 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl w-full md:w-auto">
               <div>
                 <div className="text-[10px] text-slate-400 uppercase tracking-wider">Attacks Blocked Today</div>
-                <div className="text-2xl font-black text-white font-mono">842,109</div>
+                <div className="text-xl sm:text-2xl font-black text-white font-mono">842,109</div>
               </div>
-              <Shield className="text-cyan-500 w-8 h-8" />
+              <Shield className="text-cyan-500 w-6 h-6 sm:w-8 sm:h-8" />
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
             {/* TERMINAL LOG */}
-            <div className="lg:col-span-2 bg-[#050505] border border-white/10 rounded-2xl p-6 h-87.5 overflow-hidden relative font-mono text-xs">
-              <div className="absolute top-0 left-0 w-full h-8 bg-[#050505] border-b border-white/10 flex items-center px-4 gap-2 z-10">
-                <div className="w-3 h-3 rounded-full bg-red-500/20" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
-                <div className="w-3 h-3 rounded-full bg-green-500/20" />
-                <span className="ml-2 text-slate-600">root@titan-waf:~# tail -f /var/log/threats</span>
+            <div className="lg:col-span-2 bg-[#050505] border border-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 h-80 sm:h-87.5 overflow-hidden relative font-mono text-[10px] sm:text-xs">
+              <div className="absolute top-0 left-0 w-full h-8 bg-[#050505] border-b border-white/10 flex items-center px-3 sm:px-4 gap-1.5 sm:gap-2 z-10">
+                <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500/20" />
+                <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500/20" />
+                <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500/20" />
+                <span className="ml-1 sm:ml-2 text-slate-600 text-[9px] sm:text-xs truncate">root@titan-waf:~# tail -f /var/log/threats</span>
               </div>
-              <div className="mt-8 space-y-3 animate-pulse">
+              <div className="mt-8 space-y-2 sm:space-y-3 animate-pulse overflow-y-auto max-h-64 sm:max-h-full">
                  <p className="text-green-500"><span className="text-slate-600">[22:04:12]</span> BLOCKED: SQL_INJECTION origin: 192.168.4.12 target: EG_FINANCE</p>
                  <p className="text-cyan-500"><span className="text-slate-600">[22:04:15]</span> ANALYZING: Suspicious payload signature detected (Heuristic AI)</p>
                  <p className="text-red-500"><span className="text-slate-600">[22:04:18]</span> CRITICAL: DDoS amplification attempt on Port 443 [Mitigated]</p>
@@ -163,11 +163,11 @@ export default function LandingPage() {
       </section>
 
       {/* === COMPARISON SECTION === */}
-      <section className="py-24 border-t border-white/5 bg-[#030712]">
+      <section className="py-12 sm:py-20 border-t border-white/5 bg-[#030712]">
         <div className="mx-auto max-w-7xl px-4">
-           <div className="grid lg:grid-cols-2 gap-16">
+           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
               <div>
-                <h2 className="text-4xl font-bold mb-6">Why TITAN Beats Global WAFs</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">Why TITAN Beats Global WAFs</h2>
                 <div className="space-y-6">
                   {[
                     { title: "Data Sovereignty", desc: "100% of traffic stays in Egypt. No foreign routing.", icon: <Lock /> },

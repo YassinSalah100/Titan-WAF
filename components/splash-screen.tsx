@@ -228,7 +228,7 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
         </>
       )}
 
-      <div className="relative flex flex-col items-center z-10 px-4">
+      <div className="relative flex flex-col items-center justify-center z-10 px-4 min-h-screen">
         
         {/* === SHARED LOGO (No Visual FX, Just Physics) === */}
         <motion.div 
@@ -237,21 +237,21 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
           animate={{ y: 0, opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 20, mass: 2 }}
           onAnimationComplete={() => triggerImpact(-1)} 
-          className="relative mb-10 sm:mb-12 md:mb-16"
+          className="relative mb-6 sm:mb-10 md:mb-16"
         >
-          <div className="relative w-32 h-32 xs:w-40 xs:h-40 sm:w-52 sm:h-52 md:w-55 md:h-55">
+          <div className="relative w-24 h-24 xs:w-32 xs:h-32 sm:w-44 sm:h-44 md:w-55 md:h-55">
             <Image
               src="/logo_transparent.png"
               alt="TITAN"
               fill
-              className="drop-shadow-[0_0_40px_rgba(6,182,212,0.5)] sm:drop-shadow-[0_0_60px_rgba(6,182,212,0.5)] relative z-10 object-contain"
+              className="drop-shadow-[0_0_30px_rgba(6,182,212,0.5)] sm:drop-shadow-[0_0_60px_rgba(6,182,212,0.5)] relative z-10 object-contain"
               priority
             />
           </div>
         </motion.div>
 
         {/* === SHARED LETTERS (With Advanced Effects & Smooth Exit) === */}
-        <div className="flex gap-1.5 xs:gap-2 sm:gap-3 md:gap-5 relative">
+        <div className="flex gap-1 xs:gap-1.5 sm:gap-2 md:gap-4 relative">
           <AnimatePresence>
             {!startExit && letters.map((letter, i) => (
               <div key={i} className="relative">
@@ -284,7 +284,7 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
                     }
                   }}
                   onAnimationComplete={() => triggerImpact(i)}
-                  className="block text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter drop-shadow-2xl relative z-10"
+                  className="block text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter drop-shadow-2xl relative z-10"
                   style={{
                     transformStyle: "preserve-3d",
                     perspective: "1000px"
