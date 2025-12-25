@@ -10,7 +10,7 @@ export function Footer() {
           <div className="space-y-3 sm:space-y-4 sm:col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-lg overflow-hidden bg-primary/5">
-                <Image src="/titan-logo.png" alt="TITAN Security" fill className="object-contain p-1" />
+                <Image src="/logo_transparent.png" alt="TITAN Security" fill className="object-contain p-1" />
               </div>
               <span className="text-base sm:text-lg font-bold text-foreground">TITAN</span>
             </div>
