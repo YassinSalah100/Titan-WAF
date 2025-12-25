@@ -54,27 +54,26 @@ const RealisticCrack = ({ style, className }: { style: React.CSSProperties; clas
 )
 
 // --- 3. ADVANCED REALISTIC THUNDER EFFECT ---
-const Lightning = ({ variant }: { variant?: number }) => {
+const Lightning = ({ variant, onComplete }: { variant?: number; onComplete?: () => void }) => {
   const randomX = 50 + Math.random() * 100
   const branches = Math.floor(2 + Math.random() * 3) // 2-4 branches
   
   return (
-    <AnimatePresence>
-      <motion.svg
-        viewBox="0 0 200 400"
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full sm:w-[120%] sm:h-[120%] z-[-1] pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ 
-          opacity: [0, 1, 0.3, 1, 0.2, 0],
-          scale: [1, 1.02, 1, 1.01, 1, 1]
-        }}
-        exit={{ opacity: 0 }}
-        transition={{ 
-          duration: 0.5, 
-          times: [0, 0.05, 0.15, 0.2, 0.4, 1],
-          ease: "easeOut"
-        }}
-      >
+    <motion.svg
+      viewBox="0 0 200 400"
+      className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full sm:w-[120%] sm:h-[120%] z-[-1] pointer-events-none"
+      initial={{ opacity: 0 }}
+      animate={{ 
+        opacity: [0, 1, 0.4, 0.8, 0.1, 0],
+        scale: [1, 1.02, 1, 1.01, 1, 0.98]
+      }}
+      transition={{ 
+        duration: 0.6, 
+        times: [0, 0.05, 0.2, 0.3, 0.7, 1],
+        ease: "easeOut"
+      }}
+      onAnimationComplete={onComplete}
+    >
       <defs>
         {/* Bright glow filter */}
         <filter id="lightning-glow" x="-100%" y="-100%" width="300%" height="300%">
@@ -144,7 +143,6 @@ const Lightning = ({ variant }: { variant?: number }) => {
         )
       })}
     </motion.svg>
-    </AnimatePresence>
   )
 }
 
@@ -154,15 +152,22 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
   const [shake, setShake] = useState({ x: 0, y: 0 })
   const [lightningKey, setLightningKey] = useState(0)
   const [screenFlash, setScreenFlash] = useState(false)
+  const [activeLightning, setActiveLightning] = useState<number[]>([])
 
   // Trigger random realistic lightning with screen flash
   useEffect(() => {
     const interval = setInterval(() => {
       if (Math.random() > 0.5) { // More frequent
+        const newKey = Date.now()
+        setActiveLightning(prev => [...prev, newKey])
         setLightningKey(prev => prev + 1)
         // Screen flash effect
         setScreenFlash(true)
         setTimeout(() => setScreenFlash(false), 80)
+        // Remove lightning after it completes
+        setTimeout(() => {
+          setActiveLightning(prev => prev.filter(k => k !== newKey))
+        }, 650) // Slightly longer than animation duration
       }
     }, 1500) // More frequent strikes
     return () => clearInterval(interval)
@@ -222,33 +227,32 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
       />
 
       {/* Multiple Background Thunder Bolts for Realism */}
-      {lightningKey > 0 && (
-        <>
-          <Lightning key={`main-${lightningKey}`} variant={1} />
-          {Math.random() > 0.6 && (
-            <Lightning key={`secondary-${lightningKey}`} variant={2} />
-          )}
-        </>
-      )}
+      <AnimatePresence>
+        {activeLightning.map((key) => (
+          <Lightning 
+            key={key} 
+            variant={1}
+            onComplete={() => setActiveLightning(prev => prev.filter(k => k !== key))}
+          />
+        ))}
+      </AnimatePresence>
 
       <div className="relative flex flex-col items-center justify-center z-10 px-4 min-h-screen">
         
-        {/* === SHARED LOGO (Titan Power Surge Effect) === */}
+        {/* === SHARED LOGO (Titan Ascension) === */}
         <motion.div 
           layoutId="main-logo"
-          initial={{ y: -1000, opacity: 0, scale: 4, rotateY: -180 }}
+          initial={{ y: -1000, opacity: 0, scale: 4 }}
           animate={{ 
             y: 0, 
             opacity: 1, 
-            scale: 1,
-            rotateY: 0
+            scale: 1
           }}
           exit={{
-            scale: 0.2,
+            scale: 0.3,
             opacity: 0,
-            y: -500,
-            rotateY: 360,
-            filter: "brightness(3)"
+            y: -400,
+            filter: "blur(8px) brightness(1.5)"
           }}
           transition={{ 
             type: "spring", 
@@ -257,119 +261,45 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
             mass: 2,
             exit: {
               type: "tween",
-              duration: 1.2,
-              ease: [0.34, 1.56, 0.64, 1]
+              duration: 0.9,
+              ease: [0.45, 0, 0.55, 1]
             }
           }}
           onAnimationComplete={() => triggerImpact(-1)} 
-          className="relative mb-6 sm:mb-10 md:mb-16 bg-transparent"
-          style={{ transformStyle: "preserve-3d", backgroundColor: "transparent" }}
+          className="relative mb-6 sm:mb-10 md:mb-16"
+          style={{ transformStyle: "preserve-3d" }}
         >
-          {/* Energy Ring Pulse on Exit */}
-          {startExit && (
-            <>
-              <motion.div
-                initial={{ scale: 1, opacity: 0.8 }}
-                animate={{ 
-                  scale: [1, 3, 5],
-                  opacity: [0.8, 0.3, 0]
-                }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="absolute inset-0 rounded-full border-4 border-cyan-400"
-              />
-              <motion.div
-                initial={{ scale: 1, opacity: 0.6 }}
-                animate={{ 
-                  scale: [1, 2.5, 4],
-                  opacity: [0.6, 0.2, 0]
-                }}
-                transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-                className="absolute inset-0 rounded-full border-2 border-cyan-300"
-              />
-            </>
-          )}
-          <div className="relative w-24 h-24 xs:w-32 xs:h-32 sm:w-44 sm:h-44 md:w-55 md:h-55 overflow-visible">
+          <div className="relative w-24 h-24 xs:w-32 xs:h-32 sm:w-44 sm:h-44 md:w-55 md:h-55">
+            <div className="absolute inset-0 bg-transparent" />
             <Image
               src="/logo_transparent.png"
               alt="TITAN"
               fill
-              className="drop-shadow-[0_0_30px_rgba(6,182,212,0.5)] sm:drop-shadow-[0_0_60px_rgba(6,182,212,0.5)] relative z-10 object-contain"
+              className="drop-shadow-[0_0_30px_rgba(6,182,212,0.6)] sm:drop-shadow-[0_0_50px_rgba(6,182,212,0.7)] object-contain"
               priority
-              unoptimized
+              style={{ backgroundColor: 'transparent' }}
             />
           </div>
         </motion.div>
 
-        {/* === SHARED LETTERS (Titan Power Dispersal Effect) === */}
+        {/* === SHARED LETTERS (Titan Ascension) === */}
         <div className="flex gap-1 xs:gap-1.5 sm:gap-2 md:gap-4 relative">
           <AnimatePresence>
             {!startExit && letters.map((letter, i) => (
               <div key={i} className="relative">
-                {/* Energy Particles on Exit */}
-                {startExit && (
-                  <>
-                    {[...Array(8)].map((_, p) => {
-                      const angle = (p * 45 * Math.PI) / 180
-                      return (
-                        <motion.div
-                          key={p}
-                          initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-                          animate={{ 
-                            x: Math.cos(angle) * 100,
-                            y: Math.sin(angle) * 100,
-                            opacity: 0,
-                            scale: 0
-                          }}
-                          transition={{ 
-                            duration: 0.6,
-                            delay: i * 0.08,
-                            ease: "easeOut"
-                          }}
-                          className="absolute top-1/2 left-1/2 w-2 h-2 bg-cyan-400 rounded-full"
-                          style={{
-                            boxShadow: "0 0 10px rgba(6,182,212,0.8)"
-                          }}
-                        />
-                      )
-                    })}
-                    {/* Power Wave Ring */}
-                    <motion.div
-                      initial={{ scale: 0.5, opacity: 1 }}
-                      animate={{ 
-                        scale: [0.5, 2.5, 4],
-                        opacity: [1, 0.5, 0]
-                      }}
-                      transition={{ 
-                        duration: 0.8,
-                        delay: i * 0.08,
-                        ease: "easeOut"
-                      }}
-                      className="absolute inset-0 border-2 border-cyan-400 rounded-full"
-                      style={{
-                        left: "50%",
-                        top: "50%",
-                        transform: "translate(-50%, -50%)"
-                      }}
-                    />
-                  </>
-                )}
                 <motion.span
                   layoutId={`letter-${i}`}
-                  initial={{ y: -800, opacity: 0, rotateX: -90, rotateZ: 0 }}
+                  initial={{ y: -800, opacity: 0, scale: 1.5 }}
                   animate={{ 
                     y: 0, 
                     opacity: 1, 
-                    rotateX: 0,
-                    rotateZ: 0
+                    scale: 1
                   }}
                   exit={{ 
                     opacity: 0,
-                    scale: 0.2,
-                    y: -500,
-                    rotateX: 180,
-                    rotateZ: 90,
-                    filter: "blur(20px)",
-                    textShadow: "0 0 100px rgba(6,182,212,1)"
+                    scale: 0.4,
+                    y: -350,
+                    filter: "blur(6px) brightness(1.3)"
                   }}
                   transition={{ 
                     type: "spring", 
@@ -379,17 +309,13 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
                     delay: 0.8 + (i * 0.1),
                     exit: {
                       type: "tween",
-                      duration: 1,
-                      delay: i * 0.08,
-                      ease: [0.34, 1.56, 0.64, 1]
+                      duration: 0.8,
+                      delay: i * 0.06,
+                      ease: [0.45, 0, 0.55, 1]
                     }
                   }}
                   onAnimationComplete={() => triggerImpact(i)}
-                  className="block text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter drop-shadow-2xl relative z-10"
-                  style={{
-                    transformStyle: "preserve-3d",
-                    perspective: "1000px"
-                  }}
+                  className="block text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter drop-shadow-[0_0_20px_rgba(6,182,212,0.5)] relative z-10"
                 >
                   {letter}
                 </motion.span>
