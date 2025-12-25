@@ -23,10 +23,10 @@ const DebrisShard = ({ angle, distance }: { angle: number; distance: number }) =
 )
 
 // --- 2. ADVANCED FRACTURE CRACK (For Words Only) ---
-const RealisticCrack = ({ style }: { style: React.CSSProperties }) => (
+const RealisticCrack = ({ style, className }: { style: React.CSSProperties; className?: string }) => (
   <motion.svg
     viewBox="0 0 200 200"
-    className="absolute pointer-events-none z-0 opacity-70"
+    className={`absolute pointer-events-none z-0 opacity-70 ${className || ''}`}
     style={{ width: '400px', height: '400px', ...style }}
   >
     <defs>
@@ -57,7 +57,7 @@ const RealisticCrack = ({ style }: { style: React.CSSProperties }) => (
 const Lightning = () => (
   <motion.svg
     viewBox="0 0 200 400"
-    className="absolute top-0 left-0 w-full h-full z-[-1] pointer-events-none opacity-50"
+    className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full sm:w-[120%] sm:h-[120%] z-[-1] pointer-events-none opacity-60 sm:opacity-50"
     initial={{ opacity: 0 }}
     animate={{ opacity: [0, 1, 0, 0.8, 0] }}
     transition={{ duration: 0.2, times: [0, 0.1, 0.4, 0.6, 1] }}
@@ -70,9 +70,9 @@ const Lightning = () => (
          L${60 + Math.random() * 40},350 
          L${100 + Math.random() * 50},400`}
       stroke="cyan"
-      strokeWidth="3"
+      strokeWidth="4"
       fill="none"
-      filter="drop-shadow(0 0 30px rgba(34,211,238,0.8))"
+      filter="drop-shadow(0 0 40px rgba(34,211,238,0.9))"
     />
   </motion.svg>
 )
@@ -125,10 +125,10 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
     >
       {/* 3D Perspective Floor */}
       <div 
-        className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" 
+        className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.08)_1px,transparent_1px)] sm:bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-size-[40px_40px] sm:bg-size-[60px_60px]" 
         style={{ 
-          transform: "perspective(1000px) rotateX(70deg) translateY(150px) scale(2)",
-          maskImage: "radial-gradient(circle at center, black 30%, transparent 80%)"
+          transform: "perspective(800px) rotateX(70deg) translateY(100px) scale(1.5)",
+          maskImage: "radial-gradient(circle at center, black 40%, transparent 85%)"
         }}
       />
 
@@ -137,7 +137,7 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <Lightning key={lightningKey} />
       )}
 
-      <div className="relative flex flex-col items-center z-10">
+      <div className="relative flex flex-col items-center z-10 px-4">
         
         {/* === SHARED LOGO (No Visual FX, Just Physics) === */}
         <motion.div 
@@ -146,21 +146,22 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
           animate={{ y: 0, opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 20, mass: 2 }} // Heavy Mass
           onAnimationComplete={() => triggerImpact(-1)} 
-          className="relative mb-16"
+          className="relative mb-10 sm:mb-12 md:mb-16"
         >
-          <Image
-            src="/logo_transparent.png"
-            alt="TITAN"
-            width={220}
-            height={220}
-            className="drop-shadow-[0_0_60px_rgba(6,182,212,0.5)] relative z-10"
-            priority
-          />
+          <div className="relative w-32 h-32 xs:w-40 xs:h-40 sm:w-52 sm:h-52 md:w-55 md:h-55">
+            <Image
+              src="/logo_transparent.png"
+              alt="TITAN"
+              fill
+              className="drop-shadow-[0_0_40px_rgba(6,182,212,0.5)] sm:drop-shadow-[0_0_60px_rgba(6,182,212,0.5)] relative z-10 object-contain"
+              priority
+            />
+          </div>
           {/* REMOVED: Cracks and Flash from logo as requested */}
         </motion.div>
 
         {/* === SHARED LETTERS (With Cracks & Debris) === */}
-        <div className="flex gap-3 md:gap-5 relative">
+        <div className="flex gap-1.5 xs:gap-2 sm:gap-3 md:gap-5 relative">
           <AnimatePresence>
             {!startExit && letters.map((letter, i) => (
               <div key={i} className="relative">
@@ -177,18 +178,19 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
                     delay: 0.8 + (i * 0.1) 
                   }}
                   onAnimationComplete={() => triggerImpact(i)}
-                  className="block text-7xl md:text-9xl font-black text-white tracking-tighter drop-shadow-2xl relative z-10"
+                  className="block text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter drop-shadow-2xl relative z-10"
                 >
                   {letter}
                 </motion.span>
                 
-                {/* Impact FX (Words Only) */}
+                {/* Impact FX (Words Only) - Scale down on mobile */}
                 {impacts.includes(i) && (
                   <>
-                    <RealisticCrack style={{ left: '-150px', top: '-100px', transform: `rotate(${i * 60}deg) scale(0.6)` }} />
+                    <RealisticCrack style={{ left: '-100px', top: '-80px', transform: `rotate(${i * 60}deg) scale(0.4)` }} className="hidden sm:block" />
+                    <RealisticCrack style={{ left: '-150px', top: '-100px', transform: `rotate(${i * 60}deg) scale(0.6)` }} className="sm:hidden" />
                     {/* Spawn Debris Particles */}
                     {[...Array(6)].map((_, p) => (
-                      <DebrisShard key={p} angle={(p * 60 * Math.PI) / 180} distance={100} />
+                      <DebrisShard key={p} angle={(p * 60 * Math.PI) / 180} distance={80} />
                     ))}
                   </>
                 )}
