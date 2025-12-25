@@ -210,13 +210,13 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
       />
       {/* Enhanced 3D Perspective Floor with pulsing effect */}
       <motion.div 
-        className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.08)_1px,transparent_1px)] sm:bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-size-[60px_60px]" 
+        className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.02)_1px,transparent_1px)] sm:bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-size-[60px_60px]" 
         style={{ 
           transform: "perspective(800px) rotateX(70deg) translateY(100px) scale(1.5)",
-          maskImage: "radial-gradient(circle at center, black 40%, transparent 85%)"
+          maskImage: "radial-gradient(circle at center, black 30%, transparent 70%)"
         }}
         animate={{
-          opacity: screenFlash ? 0.3 : 0.8
+          opacity: screenFlash ? 0.3 : 0.6
         }}
         transition={{ duration: 0.1 }}
       />
@@ -262,8 +262,8 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
             }
           }}
           onAnimationComplete={() => triggerImpact(-1)} 
-          className="relative mb-6 sm:mb-10 md:mb-16"
-          style={{ transformStyle: "preserve-3d" }}
+          className="relative mb-6 sm:mb-10 md:mb-16 bg-transparent"
+          style={{ transformStyle: "preserve-3d", backgroundColor: "transparent" }}
         >
           {/* Energy Ring Pulse on Exit */}
           {startExit && (
@@ -288,13 +288,14 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
               />
             </>
           )}
-          <div className="relative w-24 h-24 xs:w-32 xs:h-32 sm:w-44 sm:h-44 md:w-55 md:h-55">
+          <div className="relative w-24 h-24 xs:w-32 xs:h-32 sm:w-44 sm:h-44 md:w-55 md:h-55 overflow-visible">
             <Image
               src="/logo_transparent.png"
               alt="TITAN"
               fill
               className="drop-shadow-[0_0_30px_rgba(6,182,212,0.5)] sm:drop-shadow-[0_0_60px_rgba(6,182,212,0.5)] relative z-10 object-contain"
               priority
+              unoptimized
             />
           </div>
         </motion.div>
