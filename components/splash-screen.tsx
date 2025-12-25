@@ -59,20 +59,22 @@ const Lightning = ({ variant }: { variant?: number }) => {
   const branches = Math.floor(2 + Math.random() * 3) // 2-4 branches
   
   return (
-    <motion.svg
-      viewBox="0 0 200 400"
-      className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full sm:w-[120%] sm:h-[120%] z-[-1] pointer-events-none"
-      initial={{ opacity: 0 }}
-      animate={{ 
-        opacity: [0, 1, 0.3, 1, 0, 0.5, 0],
-        scale: [1, 1.02, 1, 1.01, 1, 1.03, 1]
-      }}
-      transition={{ 
-        duration: 0.4, 
-        times: [0, 0.05, 0.15, 0.2, 0.3, 0.35, 1],
-        ease: "easeOut"
-      }}
-    >
+    <AnimatePresence>
+      <motion.svg
+        viewBox="0 0 200 400"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full sm:w-[120%] sm:h-[120%] z-[-1] pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ 
+          opacity: [0, 1, 0.3, 1, 0.2, 0],
+          scale: [1, 1.02, 1, 1.01, 1, 1]
+        }}
+        exit={{ opacity: 0 }}
+        transition={{ 
+          duration: 0.5, 
+          times: [0, 0.05, 0.15, 0.2, 0.4, 1],
+          ease: "easeOut"
+        }}
+      >
       <defs>
         {/* Bright glow filter */}
         <filter id="lightning-glow" x="-100%" y="-100%" width="300%" height="300%">
@@ -142,6 +144,7 @@ const Lightning = ({ variant }: { variant?: number }) => {
         )
       })}
     </motion.svg>
+    </AnimatePresence>
   )
 }
 
@@ -230,15 +233,61 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
 
       <div className="relative flex flex-col items-center justify-center z-10 px-4 min-h-screen">
         
-        {/* === SHARED LOGO (No Visual FX, Just Physics) === */}
+        {/* === SHARED LOGO (Titan Power Surge Effect) === */}
         <motion.div 
           layoutId="main-logo"
-          initial={{ y: -1000, opacity: 0, scale: 4 }}
-          animate={{ y: 0, opacity: 1, scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 20, mass: 2 }}
+          initial={{ y: -1000, opacity: 0, scale: 4, rotateY: -180 }}
+          animate={{ 
+            y: 0, 
+            opacity: 1, 
+            scale: 1,
+            rotateY: 0
+          }}
+          exit={{
+            scale: 0.2,
+            opacity: 0,
+            y: -500,
+            rotateY: 360,
+            filter: "brightness(3)"
+          }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 200, 
+            damping: 20, 
+            mass: 2,
+            exit: {
+              type: "tween",
+              duration: 1.2,
+              ease: [0.34, 1.56, 0.64, 1]
+            }
+          }}
           onAnimationComplete={() => triggerImpact(-1)} 
           className="relative mb-6 sm:mb-10 md:mb-16"
+          style={{ transformStyle: "preserve-3d" }}
         >
+          {/* Energy Ring Pulse on Exit */}
+          {startExit && (
+            <>
+              <motion.div
+                initial={{ scale: 1, opacity: 0.8 }}
+                animate={{ 
+                  scale: [1, 3, 5],
+                  opacity: [0.8, 0.3, 0]
+                }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="absolute inset-0 rounded-full border-4 border-cyan-400"
+              />
+              <motion.div
+                initial={{ scale: 1, opacity: 0.6 }}
+                animate={{ 
+                  scale: [1, 2.5, 4],
+                  opacity: [0.6, 0.2, 0]
+                }}
+                transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+                className="absolute inset-0 rounded-full border-2 border-cyan-300"
+              />
+            </>
+          )}
           <div className="relative w-24 h-24 xs:w-32 xs:h-32 sm:w-44 sm:h-44 md:w-55 md:h-55">
             <Image
               src="/logo_transparent.png"
@@ -250,25 +299,75 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
           </div>
         </motion.div>
 
-        {/* === SHARED LETTERS (With Advanced Effects & Smooth Exit) === */}
+        {/* === SHARED LETTERS (Titan Power Dispersal Effect) === */}
         <div className="flex gap-1 xs:gap-1.5 sm:gap-2 md:gap-4 relative">
           <AnimatePresence>
             {!startExit && letters.map((letter, i) => (
               <div key={i} className="relative">
+                {/* Energy Particles on Exit */}
+                {startExit && (
+                  <>
+                    {[...Array(8)].map((_, p) => {
+                      const angle = (p * 45 * Math.PI) / 180
+                      return (
+                        <motion.div
+                          key={p}
+                          initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                          animate={{ 
+                            x: Math.cos(angle) * 100,
+                            y: Math.sin(angle) * 100,
+                            opacity: 0,
+                            scale: 0
+                          }}
+                          transition={{ 
+                            duration: 0.6,
+                            delay: i * 0.08,
+                            ease: "easeOut"
+                          }}
+                          className="absolute top-1/2 left-1/2 w-2 h-2 bg-cyan-400 rounded-full"
+                          style={{
+                            boxShadow: "0 0 10px rgba(6,182,212,0.8)"
+                          }}
+                        />
+                      )
+                    })}
+                    {/* Power Wave Ring */}
+                    <motion.div
+                      initial={{ scale: 0.5, opacity: 1 }}
+                      animate={{ 
+                        scale: [0.5, 2.5, 4],
+                        opacity: [1, 0.5, 0]
+                      }}
+                      transition={{ 
+                        duration: 0.8,
+                        delay: i * 0.08,
+                        ease: "easeOut"
+                      }}
+                      className="absolute inset-0 border-2 border-cyan-400 rounded-full"
+                      style={{
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)"
+                      }}
+                    />
+                  </>
+                )}
                 <motion.span
                   layoutId={`letter-${i}`}
-                  initial={{ y: -800, opacity: 0, rotateX: -90 }}
+                  initial={{ y: -800, opacity: 0, rotateX: -90, rotateZ: 0 }}
                   animate={{ 
                     y: 0, 
                     opacity: 1, 
-                    rotateX: 0
+                    rotateX: 0,
+                    rotateZ: 0
                   }}
                   exit={{ 
                     opacity: 0,
-                    scale: 0.3,
-                    y: -400,
-                    rotateX: 90,
-                    filter: "blur(15px)",
+                    scale: 0.2,
+                    y: -500,
+                    rotateX: 180,
+                    rotateZ: 90,
+                    filter: "blur(20px)",
                     textShadow: "0 0 100px rgba(6,182,212,1)"
                   }}
                   transition={{ 
@@ -278,9 +377,10 @@ export function SplashScreen({ onComplete }: { onComplete: () => void }) {
                     mass: 3,        
                     delay: 0.8 + (i * 0.1),
                     exit: {
-                      duration: 0.8,
+                      type: "tween",
+                      duration: 1,
                       delay: i * 0.08,
-                      ease: [0.43, 0.13, 0.23, 0.96]
+                      ease: [0.34, 1.56, 0.64, 1]
                     }
                   }}
                   onAnimationComplete={() => triggerImpact(i)}
